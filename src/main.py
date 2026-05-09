@@ -5,6 +5,7 @@ from tabulate import tabulate
 
 # Adiciona o diretório src ao path para facilitar as importações locais
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from address_service import AddressService
 from medication_manager import MedicationManager
 
 
@@ -30,7 +31,8 @@ def main_menu():
         print("\n[1] Adicionar Medicamento")
         print("[2] Listar Medicamentos")
         print("[3] Remover Medicamento")
-        print("[4] Sair")
+        print("[4] Buscar Endereço por CEP")
+        print("[5] Sair")
 
         opcao = input("\nSelecione uma opção: ")
 
@@ -73,6 +75,20 @@ def main_menu():
             input("\nPressione Enter para voltar ao menu...")
 
         elif opcao == "4":
+            cep = input("Informe o CEP (apenas números): ")
+            print("\nBuscando informações...")
+            result = AddressService.get_address_by_cep(cep)
+
+            if "error" in result:
+                print(f"\nErro: {result['error']}")
+            else:
+                print("\nEndereço Encontrado:")
+                print(f"Rua: {result['logradouro']}")
+                print(f"Bairro: {result['bairro']}")
+                print(f"Cidade: {result['localidade']} - {result['uf']}")
+            input("\nPressione Enter para voltar ao menu...")
+
+        elif opcao == "5":
             print("\nEncerrando o sistema... Até logo!")
             break
         else:
