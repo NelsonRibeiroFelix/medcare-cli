@@ -28,6 +28,7 @@ def main_menu():
     while True:
         clear_screen()
         print_header()
+        print("\nStatus: Conectado ao Banco de Dados (Nuvem)")
         print("\n[1] Adicionar Medicamento")
         print("[2] Listar Medicamentos")
         print("[3] Remover Medicamento")
