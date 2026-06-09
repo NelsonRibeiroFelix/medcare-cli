@@ -91,6 +91,14 @@ class MedicationManager:
         self.medications = self._load_data()
         return self.medications
 
+    def get_medication_by_id(self, medication_id: int) -> dict[str, Any] | None:
+        """Busca um medicamento específico pelo seu identificador."""
+        meds = self.list_medications()
+        for med in meds:
+            if int(med.get("id", 0)) == medication_id:
+                return med
+        return None
+
     def remove_medication(self, medication_id: int) -> bool:
         """Remove um medicamento do Supabase ou do fallback local."""
         if self.db.is_available:
