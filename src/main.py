@@ -28,7 +28,7 @@ def main_menu():
     while True:
         clear_screen()
         print_header()
-        print("\nStatus: Conectado ao Banco de Dados (Nuvem)")
+        print(f"\nPersistência ativa: {manager.storage_mode}")
         print("\n[1] Adicionar Medicamento")
         print("[2] Listar Medicamentos")
         print("[3] Remover Medicamento")
@@ -46,6 +46,8 @@ def main_menu():
                 print("\nMedicamento cadastrado com sucesso!")
             except ValueError as e:
                 print(f"\nErro de validação: {e}")
+            except RuntimeError as e:
+                print(f"\nErro de persistência: {e}")
             input("\nPressione Enter para voltar ao menu...")
 
         elif opcao == "2":
@@ -55,7 +57,13 @@ def main_menu():
             else:
                 headers = ["ID", "Nome", "Dosagem", "Horário"]
                 table_data = [
-                    [m["id"], m["name"], m["dosage"], m["time"]] for m in meds
+                    [
+                        m.get("id", "-"),
+                        m.get("name", "-"),
+                        m.get("dosage", "-"),
+                        m.get("time", "-"),
+                    ]
+                    for m in meds
                 ]
                 print("\n" + tabulate(table_data, headers=headers, tablefmt="grid"))
             input("\nPressione Enter para voltar ao menu...")
